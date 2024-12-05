@@ -1,4 +1,4 @@
-package functions
+package Hangman
 
 import (
 	"fmt"
@@ -19,7 +19,7 @@ func InitializeWord(word string) []string {
 
 // initialisation et boucle principale
 func InitMainLoop() {
-	Addwords()
+	Addwords("./txt/words.txt")
 
 	// Récupérer un mot aléatoire à deviner
 	wordToGuess := GetRandomWord()

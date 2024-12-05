@@ -1,4 +1,4 @@
-package functions
+package Hangman
 
 import (
 	"bufio"

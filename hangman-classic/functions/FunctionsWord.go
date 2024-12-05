@@ -1,4 +1,4 @@
-package functions
+package Hangman
 
 import (
 	"bufio"
@@ -11,11 +11,12 @@ import (
 var words []string
 
 // Addwords lit des mots à partir du fichier words.txt et les ajoute au slice words.
-func Addwords() {
+func Addwords(filepath string) {
 	// Utilisation d'un chemin relatif vers le fichier words.txt
-	filePath := "hangman-classic/txt/words.txt" // Chemin relatif correct depuis Hangman-Web
+	 // Chemin relatif correct depuis Hangman-Web
+
 	// Ouvre le fichier
-	f, err := os.Open(filePath)
+	f, err := os.Open(filepath)
 	if err != nil {
 		log.Fatal(err)
 	}
