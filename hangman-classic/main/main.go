@@ -21,6 +21,9 @@ func main() {
 	guessedLetters := []string{} // Initially empty, so no guesses have been made yet
 	attempts := 10
 
+	// Flag to track if the first wrong guess has been made
+	firstWrongGuessMade := false
+
 	// Game loop
 	for attempts > 0 {
 		// Display the current game state
@@ -55,7 +58,10 @@ func main() {
 			} else {
 				attempts--  // Reduce attempts for an incorrect letter guess
 				fmt.Println("Mauvaise lettre!")
-				// Use the Hangman package to update the hangman position
+				// Use the Hangman package to update the hangman position only if a wrong guess is made
+				if !firstWrongGuessMade {
+					firstWrongGuessMade = true
+				}
 				Hangman.UpdateHangmanPosition(attempts)  // Display the current hangman position
 			}
 		} else {
@@ -78,4 +84,3 @@ func main() {
 		}
 	}
 }
-

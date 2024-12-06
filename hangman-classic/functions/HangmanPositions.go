@@ -9,8 +9,8 @@ import (
 // HangmanPositions contient les différentes étapes du pendu sous forme de tableau de chaînes
 var HangmanPositions = []string{
 	"",
-	"=========",
-	"=========\n|\n|\n|\n|\n|",
+	"\n\n\n\n\n========",
+	"\n|\n|\n|\n|\n|\n=========",
 	"=========\n|\n|\n|\n|\n|\n===========",
 	"=========\n|/\n|\n|\n|\n|\n===========",
 	"=========\n|/  |\n|\n|\n|\n|\n===========",
@@ -27,13 +27,13 @@ func UpdateHangmanPosition(attempts int) {
 	// On calcule l'index du sous-ensemble des lignes à afficher
 	positionIndex := 10 - attempts // Si 10 tentatives sont possibles, indexera de 0 à 9
 
-	// Limiter l'index pour ne pas sortir des bornes du tableau
-	if positionIndex < 0 {
-		positionIndex = 0
+	// Ne pas afficher la première position ("=========") si aucune tentative incorrecte n'a été faite
+	if positionIndex > 0 {
+		// Limiter l'index pour ne pas sortir des bornes du tableau
+		if positionIndex < len(HangmanPositions) {
+			fmt.Println(HangmanPositions[positionIndex])
+		}
 	}
-
-	// Afficher l'état correspondant aux tentatives restantes
-	fmt.Println(HangmanPositions[positionIndex])
 }
 
 func LoadHangmanPositions(filename string) ([]string, error) {
