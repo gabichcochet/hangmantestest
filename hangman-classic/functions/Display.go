@@ -6,10 +6,13 @@ import (
 )
 
 // DisplayState affiche l'état actuel du mot et le nombre de tentatives restantes.
-func DisplayState(currentWordState []string, attempts int) {
+func DisplayState(currentWordState []string, attempts int, guessedLetters []string, guessedWords []string) {
 	fmt.Println("État actuel du mot :", strings.Join(currentWordState, " "))
 	fmt.Println("Tentatives restantes :", attempts)
+	fmt.Println("Lettres déjà devinées :", strings.Join(guessedLetters, ", "))
+	fmt.Println("Mots déjà devinés :", strings.Join(guessedWords, ", "))
 }
+
 
 // DisplayState imprime l'état actuel du mot et le nombre de tentatives restantes.
 

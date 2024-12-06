@@ -31,7 +31,6 @@ func Addwords(filepath string) {
 		log.Fatal(err)
 	}
 }
-
 // GetRandomWord retourne un mot aléatoire du slice words.
 func GetRandomWord() string {
 	rand.Seed(time.Now().UnixNano())
@@ -39,18 +38,15 @@ func GetRandomWord() string {
 	return words[randomIndex]
 }
 
+
 // UpdateWord met à jour l'état actuel du mot avec la lettre devinée si elle existe dans le mot.
 func UpdateWord(word string, currentWordState []string, letter string) bool {
 	found := false
-
-	// Parcours du mot pour vérifier chaque caractère
 	for i, char := range word {
-		// Si la lettre devinée correspond à la lettre dans le mot
 		if string(char) == letter {
-			currentWordState[i] = letter // Mettre à jour l'état du mot
-			found = true                 // Indiquer que la lettre a été trouvée
+			currentWordState[i] = letter
+			found = true
 		}
 	}
-
 	return found
 }

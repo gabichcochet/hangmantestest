@@ -3,65 +3,79 @@ package main
 import (
 	"fmt"
 	"strings"
-	Hangman "Hangman/functions" // Importing the functions package
+	Hangman "Hangman/functions" // Make sure the package path is correct
 )
 
 func main() {
-	// Initialisation du jeu
-	Hangman.Addwords("./txt/words.txt") // Adding words from the file
+	// Load words
+	Hangman.Addwords("./txt/words.txt")
 
-	// Choisir un mot au hasard
-	wordToGuess := Hangman.GetRandomWord() // Get a random word to guess
-	currentWordState := Hangman.InitializeWord(wordToGuess) // Initialize the word state
-	currentWordState[0] = string(wordToGuess[0]) // Reveal the first letter            
+	// Get a random word to guess
+	wordToGuess := Hangman.GetRandomWord()
 
-	guessedLetters := []string{} // Store guessed letters
-	guessedWords := []string{} // Store guessed words
-	attempts := 10 // Initial number of attempts
+	// Initialize the word state (with underscores)
+	currentWordState := Hangman.InitializeWord(wordToGuess)
 
-	// Game loop, continue until attempts are used up or the word is guessed
+	// Track guessed words and letters
+	guessedWords := []string{}
+	guessedLetters := []string{} // Initially empty, so no guesses have been made yet
+	attempts := 10
+
+	// Game loop
 	for attempts > 0 {
-		// Display the current state of the game
+		// Display the current game state
 		Hangman.DisplayGuesses(currentWordState, attempts, guessedLetters, guessedWords)
 
-		// Ask the user to guess a letter or a word
+		// Prompt the user to guess a letter or a word
 		fmt.Print("Devine la lettre ou le mot: ")
-		guess := Hangman.InputUser() // Get the user's input
-
-		// Check for invalid input
+		guess := Hangman.InputUser()
 		if guess == "" {
 			fmt.Println("Veuillez entrer une lettre ou un mot.")
 			continue
 		}
 
-		// Convert the guess to lowercase to handle case sensitivity
-		guess = Hangman.ConvertToLower(guess)
-
-		// Validate the input (check if it's a letter or word)
+		// Validate if the input contains only letters
 		if !Hangman.IsValidInput(guess) {
 			fmt.Println("Veuillez entrer uniquement des lettres.")
 			continue
 		}
 
-		// Process the guess
+		// If the guess is a single letter
 		if len(guess) == 1 {
-			// If the user guessed a letter
-			Hangman.HandleLetterGuess(guess, &guessedLetters, wordToGuess, currentWordState, &attempts)
+			// Check if the letter has already been guessed
+			if Hangman.Contains(guessedLetters, guess) {
+				fmt.Println("Vous avez déjà deviné cette lettre.")
+				continue
+			}
+			guessedLetters = append(guessedLetters, guess)
+
+			// Update the current word state
+			if Hangman.UpdateWord(wordToGuess, currentWordState, guess) {
+				fmt.Println("Bonne lettre!")
+			} else {
+				attempts--  // Reduce attempts for an incorrect letter guess
+				fmt.Println("Mauvaise lettre!")
+				// Use the Hangman package to update the hangman position
+				Hangman.UpdateHangmanPosition(attempts)  // Display the current hangman position
+			}
 		} else {
-			// If the user guessed a word
+			// Handle word guesses
 			Hangman.HandleWordGuess(guess, &guessedWords, wordToGuess, &attempts, currentWordState)
 		}
 
-		// Check if the word has been guessed correctly
+		// Check if the current word state matches the word to guess
 		if strings.Join(currentWordState, "") == wordToGuess {
 			fmt.Println("Félicitations, vous avez deviné le mot:", wordToGuess)
 			return
 		}
 
-		// If the user has run out of attempts
+		// If the player runs out of attempts
 		if attempts <= 0 {
 			fmt.Println("GAME OVER. Le mot était:", wordToGuess)
+			// Display final hangman position
+			Hangman.UpdateHangmanPosition(attempts)
 			return
 		}
 	}
 }
+

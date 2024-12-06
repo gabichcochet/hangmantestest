@@ -15,13 +15,13 @@ func Contains(slice []string, item string) bool {
 // Contains vérifie si un slice contient un élément spécifique.
 
 // FindLetter vérifie si une lettre est présente dans un mot donné.
-func FindLetter(guessedLetters []string, letter string) bool {
-    for _, guessed := range guessedLetters {
-        if guessed == letter {
-            return true // Letter has already been guessed
-        }
-    }
-    return false // Letter has not been guessed yet
+func FindLetter(word string, letter string) bool {
+	for _, char := range word {
+		if string(char) == letter {
+			return true
+		}
+	}
+	return false
 }
 
 // FindLetter vérifie si une lettre est présente dans un mot donné.
